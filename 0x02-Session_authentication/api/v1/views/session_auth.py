@@ -2,11 +2,11 @@
 """Module of session authenticating views.
 """
 import os
+import sys
+from models.user import User
+from v1.views import app_views
 from typing import Tuple
 from flask import abort, jsonify, request
-
-from models.user import User
-from api.v1.views import app_views
 
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
@@ -43,8 +43,9 @@ def logout() -> Tuple[str, int]:
     Return:
       - An empty JSON object.
     """
-    from api.v1.app import auth
+    from v1.app import auth
     is_destroyed = auth.destroy_session(request)
     if not is_destroyed:
         abort(404)
     return jsonify({})
+
